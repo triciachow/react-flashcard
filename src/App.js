@@ -4,7 +4,7 @@ import "./app.css";
 import axios from "axios";
 
 export default function App() {
-  const url = "https://opentdb.com/api.php?amount=10";
+  const url = "https://opentdb.com/api.php";
   const categoryUrl = "https://opentdb.com/api_category.php";
   const [flashcards, setFlashcards] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -16,8 +16,6 @@ export default function App() {
       setCategories(res.data.trivia_categories);
     });
   }, []);
-
-  useEffect(() => {}, []);
 
   // Translate HTML character coding to normal string
   function decodeString(str) {
