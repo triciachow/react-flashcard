@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FlashcardList from "./FlashcardList";
+import "./app.css";
 
 export default function App() {
   const [flashcards, setFlashcards] = useState(SAMPLE_FLASHCARD);
