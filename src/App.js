@@ -11,12 +11,15 @@ export default function App() {
     axios.get(url).then(res => {
       setFlashcards(
         res.data.results.map((questionItem, index) => {
-          const answer = questionItem.correct_answer;
-          const options = [...questionItem.incorrect_answers, answer];
+          const answer = decodeString(questionItem.correct_answer);
+          const options = [
+            ...questionItem.incorrect_answers.map(ans => decodeString(ans)),
+            answer,
+          ];
 
           return {
             id: `${index}-${Date.now()}`, // To ensure a unique ID
-            question: questionItem.question,
+            question: decodeString(questionItem.question),
             answer: answer,
             options: options.sort(() => Math.random() - 0.5),
           };
@@ -24,6 +27,13 @@ export default function App() {
       );
     });
   }, []);
+
+  // Translate HTML character coding to normal string
+  function decodeString(str) {
+    const textArea = document.createElement("textarea");
+    textArea.innerHTML = str;
+    return textArea.value;
+  }
 
   return (
     <>
