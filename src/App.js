@@ -2,21 +2,24 @@ import React, { useEffect, useState, useRef } from "react";
 import FlashcardList from "./FlashcardList";
 import "./app.css";
 import axios from "axios";
-import Button from "bootstrap/";
+import { Button, Dropdown, Form } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function App() {
   const url = "https://opentdb.com/api.php";
   const categoryUrl = "https://opentdb.com/api_category.php";
   const [flashcards, setFlashcards] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const categoryEl = useRef();
   const amountEl = useRef();
 
   useEffect(() => {
     axios.get(categoryUrl).then(res => {
+      setIsLoading(false);
       setCategories(res.data.trivia_categories);
     });
-  }, []);
+  }, [isLoading]);
 
   // Translate HTML character coding to normal string
   function decodeString(str) {
@@ -51,6 +54,7 @@ export default function App() {
             };
           })
         );
+        setIsLoading(true);
       });
   }
 
@@ -59,7 +63,7 @@ export default function App() {
       <form className="header" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="category">Category</label>
-          <select id="category" ref={categoryEl}>
+          {/* <select id="category" ref={categoryEl}>
             {categories.map((category, index) => {
               return (
                 <option value={category.id} key={index}>
@@ -67,12 +71,33 @@ export default function App() {
                 </option>
               );
             })}
-            <option></option>
-          </select>
+          </select> */}
+          <Dropdown>
+            <Dropdown.Toggle id="category" ref={categoryEl}>
+              Choose a category
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {categories.map((category, index) => {
+                return (
+                  <Dropdown.Item value={category.id} key={index}>
+                    {category.name}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
         <div className="form-group">
           <label htmlFor="amount">Number of Questions</label>
-          <input
+          {/* <input
+            type="number"
+            id="amount"
+            min="1"
+            step="1"
+            defaultValue={10}
+            ref={amountEl}
+          /> */}
+          <Form.Control
             type="number"
             id="amount"
             min="1"
@@ -82,7 +107,10 @@ export default function App() {
           />
         </div>
         <div className="form-group">
-          <button className="btn">Generate</button>
+          {/* <button className="btn">Generate</button> */}
+          <Button type="submit" variant="outline-primary">
+            {isLoading ? "Loading..." : "Generate"}
+          </Button>
         </div>
       </form>
       <div className="container">
