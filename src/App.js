@@ -4,6 +4,7 @@ import "./app.css";
 import axios from "axios";
 import { Button, Dropdown, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./custom.scss";
 
 export default function App() {
   const url = "https://opentdb.com/api.php";
