@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import FlashcardList from "./FlashcardList";
 import "./app.css";
 import axios from "axios";
+import Button from "bootstrap/";
 
 export default function App() {
   const url = "https://opentdb.com/api.php";
